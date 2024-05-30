@@ -11,7 +11,6 @@ import { typography } from './typography';
 import { customShadows } from './custom-shadows';
 
 // ----------------------------------------------------------------------
-
 export default function ThemeProvider({ children }) {
   const memoizedValue = useMemo(
     () => ({
@@ -24,7 +23,9 @@ export default function ThemeProvider({ children }) {
     []
   );
 
-  const theme = createTheme(memoizedValue);
+  const theme = createTheme(
+    memoizedValue,
+    {direction: 'rtl'});
 
   theme.components = overrides(theme);
 
