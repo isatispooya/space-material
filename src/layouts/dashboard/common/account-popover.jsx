@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -10,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import { account } from 'src/_mock/account';
+
+
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +27,7 @@ const MENU_OPTIONS = [
   },
   {
     label: 'Settings',
+    src : '/settings',
     icon: 'eva:settings-2-fill',
   },
 ];
@@ -32,6 +36,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const Navigate = useNavigate();
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -40,9 +45,16 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+  const handleMenuOptionClick = (option) => {
+    if (option.src) {
+      Navigate(option.src); 
+    }
+    handleClose();
+  };
 
   return (
     <>
+    
       <IconButton
         onClick={handleOpen}
         sx={{
@@ -95,7 +107,7 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
+          <MenuItem key={option.label} onClick={() => handleMenuOptionClick(option)}>
             {option.label}
           </MenuItem>
         ))}

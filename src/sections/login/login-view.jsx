@@ -1,5 +1,6 @@
-import useSWR from 'swr';
+// import useSWR from 'swr'; it is not used
 import React from 'react';
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -8,10 +9,14 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
+
 import { useRouter } from 'src/routes/hooks';
+
+import { bgGradient } from 'src/theme/css';
+
 import Logo from 'src/components/logo';
 // import { onrun } from 'src/api/OnRun';
-import { bgGradient } from 'src/theme/css';
+
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
