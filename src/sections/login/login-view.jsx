@@ -1,6 +1,5 @@
-
 import useSWR from 'swr';
-
+import React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -10,13 +9,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
-
 import { useRouter } from 'src/routes/hooks';
-
-import { onrun } from 'src/api/OnRun';
-import { bgGradient } from 'src/theme/css';
-import { fetcher } from 'src/api/fetchers';
-
 import Logo from 'src/components/logo';
 
 
@@ -31,16 +24,13 @@ export default function LoginView() {
   
 
   const handleClick = () => {
-    router.push("/");
+    router.push('/');
   };
   const { data, error, isLoading , mutate} = useSWR(`${onrun}/api/captcha/`, fetcher)
-  console.log(data);
-  console.log(error);
-  console.log(isLoading);
-
+ 
   
   const renderForm = (
-    <> 
+    <>
       <Stack spacing={3}>
         <TextField name="email" label="شماره شناسه ملی" />
         <TextField name="captcha" label="کپچا" />
@@ -72,7 +62,6 @@ export default function LoginView() {
         
    
     </>
-      
   );
 
   return (
