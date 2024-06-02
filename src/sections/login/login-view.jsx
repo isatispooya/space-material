@@ -1,6 +1,5 @@
-
 import useSWR from 'swr';
-
+import React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -9,15 +8,10 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
-
 import { useRouter } from 'src/routes/hooks';
-
-import { onrun } from 'src/api/OnRun';
-import { bgGradient } from 'src/theme/css';
-import { fetcher } from 'src/api/fetchers';
-
 import Logo from 'src/components/logo';
-
+// import { onrun } from 'src/api/OnRun';
+import { bgGradient } from 'src/theme/css';
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
@@ -26,19 +20,19 @@ export default function LoginView() {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/");
+    router.push('/');
   };
-  const { data, error, isLoading } = useSWR(`${onrun}/api/captcha/`, fetcher)
-  console.log(data);
-  console.log(error);
-  console.log(isLoading);
+  // const { data, error, isLoading } = useSWR(`${onrun}/api/captcha/`, fetcher)
+  // console.log(data);
+  // console.log(error);
+  // console.log(isLoading);
   const renderForm = (
-    <> 
+    <>
       <Stack spacing={3}>
         <TextField name="email" label="شماره شناسه ملی" />
         <TextField name="captcha" label="کپچا" />
       </Stack>
-      <img src='' alt="captcha" />
+      <img src="" alt="captcha" />
       <LoadingButton
         fullWidth
         size="large"
@@ -50,7 +44,6 @@ export default function LoginView() {
         تایید
       </LoadingButton>
     </>
-      
   );
 
   return (
