@@ -1,5 +1,7 @@
 import useSWR from 'swr';
-import React from 'react';
+import React ,{useState} from 'react';
+import useSWRMutation from 'swr/mutation'
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -9,40 +11,54 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
-import { useRouter } from 'src/routes/hooks';
-import Logo from 'src/components/logo';
 
+import { Onrun } from 'src/api/OnRun';
+import { bgGradient } from 'src/theme/css';
+import { fetcher, otp } from 'src/api/fetchers';
+
+import Logo from 'src/components/logo';
 
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
   const theme = useTheme();
-  const router = useRouter();
-  const handelCaptcha=()=>{
-  mutate()
-}
-  
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [captcha, setCaptcha] = useState('');
 
-  const handleClick = () => {
-    router.push('/');
+  
+  const { data:data_captcha, isLoading:isLoading_captcha , mutate:mutate_captcha} = useSWR(`${Onrun}/api/captcha/`, fetcher)
+  // eslint-disable-next-line no-shadow
+  const { trigger } = useSWRMutation({mobile: phoneNumber,captcha,encrypted_response: data_captcha?data_captcha.encrypted_response:''}, otp);
+
+
+  const handleClick = async () => {
+    if (!data_captcha) {
+      console.error('Captcha data is not loaded');
+      return;
+    }
+    try {
+      const data = await trigger();
+      console.log('Login successful:', data);
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
   };
-  const { data, error, isLoading , mutate} = useSWR(`${onrun}/api/captcha/`, fetcher)
- 
+
   
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="شماره شناسه ملی" />
-        <TextField name="captcha" label="کپچا" />
+        <TextField name="phoneNumber" label="شماره موبایل" value={phoneNumber} onChange={(e)=>setPhoneNumber(e.target.value)} />
+        <TextField name="captcha" label="کپچا"  value={captcha} onChange={(e)=>setCaptcha(e.target.value)}/>
       </Stack>
       
 {
-  isLoading ? (
+  isLoading_captcha ? (
     <Skeleton variant="rounded" width={210} height={60} />
   ) : (
-    <Stack spacing={3} >
-      <Button onClick={handelCaptcha} >      
-       <img src={`data:image/png;base64,${data.image}`}  alt="captcha" />
+    <Stack spacing={3}  >
+      <Button onClick={()=>mutate_captcha()} >      
+       <img src={`data:image/png;base64,${data_captcha.image}`}  alt="captcha"/>
     </Button>
 
     </Stack>
@@ -103,4 +119,4 @@ export default function LoginView() {
       </Stack>
     </Box>
   );
-}
+};
