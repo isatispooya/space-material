@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
+import {Button,Skeleton}  from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -18,28 +19,46 @@ import { fetcher } from 'src/api/fetchers';
 
 import Logo from 'src/components/logo';
 
+
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
   const theme = useTheme();
-
   const router = useRouter();
+  const handelCaptcha=()=>{
+  mutate()
+}
+  
 
   const handleClick = () => {
     router.push("/");
   };
-  const { data, error, isLoading } = useSWR(`${onrun}/api/captcha/`, fetcher)
+  const { data, error, isLoading , mutate} = useSWR(`${onrun}/api/captcha/`, fetcher)
   console.log(data);
   console.log(error);
   console.log(isLoading);
+
+  
   const renderForm = (
     <> 
       <Stack spacing={3}>
         <TextField name="email" label="شماره شناسه ملی" />
         <TextField name="captcha" label="کپچا" />
       </Stack>
-      <img src='' alt="captcha" />
-      <LoadingButton
+      
+{
+  isLoading ? (
+    <Skeleton variant="rounded" width={210} height={60} />
+  ) : (
+    <Stack spacing={3} >
+      <Button onClick={handelCaptcha} >      
+       <img src={`data:image/png;base64,${data.image}`}  alt="captcha" />
+    </Button>
+
+    </Stack>
+    )
+}
+         <LoadingButton
         fullWidth
         size="large"
         type="submit"
@@ -49,6 +68,9 @@ export default function LoginView() {
       >
         تایید
       </LoadingButton>
+     
+        
+   
     </>
       
   );
