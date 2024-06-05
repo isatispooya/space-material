@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-// import useSWR from 'swr'; it is not used
-import React from 'react';
-=======
 import useSWR from 'swr';
 import React ,{useState} from 'react';
 import useSWRMutation from 'swr/mutation'
->>>>>>> d5cca65530644d023d106cbaf84ccbe8803831a1
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -17,20 +12,11 @@ import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 
-<<<<<<< HEAD
-import { useRouter } from 'src/routes/hooks';
-
-import { bgGradient } from 'src/theme/css';
-
-import Logo from 'src/components/logo';
-// import { onrun } from 'src/api/OnRun';
-=======
 import { Onrun } from 'src/api/OnRun';
 import { bgGradient } from 'src/theme/css';
 import { fetcher, otp } from 'src/api/fetchers';
 
 import Logo from 'src/components/logo';
->>>>>>> d5cca65530644d023d106cbaf84ccbe8803831a1
 
 // ----------------------------------------------------------------------
 
