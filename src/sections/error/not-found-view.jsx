@@ -25,12 +25,25 @@ export default function NotFoundView() {
       <Logo />
     </Box>
   );
-
   return (
-    <div style={{ minHeight: '100vh' }}>
+    <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
       {renderHeader}
-
-      <Container>
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: -1,
+          backgroundImage: `url("public/assets/illustrations/background404.png")`,
+          backgroundSize: 'auto',
+          backgroundPosition: 'center',
+          backgroundColor: '#e0e0e0',
+          backgroundRepeat: 'repeat',
+        }}
+      />
+      <Container sx={{ position: 'relative', zIndex: 1 }}>
         <Box
           sx={{
             py: 12,
@@ -50,8 +63,6 @@ export default function NotFoundView() {
 
           <Typography sx={{ color: 'text.secondary' }}>
             با عرض پوزش صفحه مورد نظر یافت نشد .دکمه بازگشت را فشار دهید
-            {/* Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be
-            sure to check your spelling. */}
           </Typography>
 
           <Button
@@ -65,24 +76,9 @@ export default function NotFoundView() {
           >
             بازگشت
           </Button>
-          <Box
-            sx={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '45px',
-              height: '45px',
-              zIndex: -1,
-              backgroundImage: `url("/public/assets/illustrations/Group 356.png")`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundColor: '#e0e0e0',
-              maxWidth: '100%',
-              maxHeight: '100%',
-            }}
-          />
         </Box>
       </Container>
     </div>
   );
+
 }
