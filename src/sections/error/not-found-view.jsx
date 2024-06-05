@@ -27,7 +27,7 @@ export default function NotFoundView() {
   );
 
   return (
-    <>
+    <div style={{ minHeight: '100vh' }}>
       {renderHeader}
 
       <Container>
@@ -45,29 +45,44 @@ export default function NotFoundView() {
           }}
         >
           <Typography variant="h3" sx={{ mb: 3 }}>
-            Sorry, page not found!
+            صفحه یافت نشد!
           </Typography>
 
           <Typography sx={{ color: 'text.secondary' }}>
-            Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be
-            sure to check your spelling.
+            با عرض پوزش صفحه مورد نظر یافت نشد .دکمه بازگشت را فشار دهید
+            {/* Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be
+            sure to check your spelling. */}
           </Typography>
 
-          <Box
-            component="img"
-            src="/assets/illustrations/illustration_404.svg"
+          <Button
             sx={{
-              mx: 'auto',
-              height: 260,
-              my: { xs: 5, sm: 10 },
+              marginTop: 20,
+            }}
+            href="/"
+            size="large"
+            variant="contained"
+            component={RouterLink}
+          >
+            بازگشت
+          </Button>
+          <Box
+            sx={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '45px',
+              height: '45px',
+              zIndex: -1,
+              backgroundImage: `url("/public/assets/illustrations/Group 356.png")`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundColor: '#e0e0e0',
+              maxWidth: '100%',
+              maxHeight: '100%',
             }}
           />
-
-          <Button href="/" size="large" variant="contained" component={RouterLink}>
-            Go to Home
-          </Button>
         </Box>
       </Container>
-    </>
+    </div>
   );
 }
