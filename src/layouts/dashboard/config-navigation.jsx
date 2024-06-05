@@ -24,15 +24,36 @@ const navConfig = [
     icon: icon('ic_cart'),
     children:[ 
       {
-    title: 'product',
+    title: 'data1',
     path: '/products',
     icon: icon('ic_cart')
   },
-    {title: 'product',
+    {title: 'data2',
     path: '/products',
-    icon: icon('ic_cart')
+    icon: icon('ic_cart'),
+    children:[
+      {
+        title: 'data3',
+        path: '/products',
+        icon: icon('ic_cart'),
+        children:[
+
+          {title: 'data4',
+          path: '/products',
+          icon: icon('ic_cart'),
+          children:[
+
+            {title: 'data5',
+            path: '/products',
+            icon: icon('ic_cart'),}
+          ]
+        }
+
+        ]
+
+      },
+    ]
   }
-  
   ]
   },
   {
