@@ -8,10 +8,8 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import ListItemButton from '@mui/material/ListItemButton';
 
 import { usePathname } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
@@ -20,14 +18,15 @@ import { account } from 'src/_mock/account';
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 
+import NavItem from './NavItem';
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
+
 
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
-
   const upLg = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -52,12 +51,8 @@ export default function Nav({ openNav, onCloseNav }) {
     >
       <Avatar src={account.photoURL} alt="photoURL" />
 
-      <Box sx={{ ml: 2 }}>
+      <Box sx={{ ml: 2, display: 'flex', alignItems: 'center'}}>
         <Typography variant="subtitle2">{account.displayName}</Typography>
-
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
-        </Typography>
       </Box>
     </Box>
   );
@@ -81,7 +76,6 @@ export default function Nav({ openNav, onCloseNav }) {
 
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="h6">Get more?</Typography>
-
           <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
             From only $69
           </Typography>
@@ -160,45 +154,4 @@ export default function Nav({ openNav, onCloseNav }) {
 Nav.propTypes = {
   openNav: PropTypes.bool,
   onCloseNav: PropTypes.func,
-};
-
-// ----------------------------------------------------------------------
-
-function NavItem({ item }) {
-  const pathname = usePathname();
-
-  const active = item.path === pathname;
-
-  return (
-    <ListItemButton
-      component={RouterLink}
-      href={item.path}
-      sx={{
-        minHeight: 44,
-        borderRadius: 0.75,
-        typography: 'body2',
-        color: 'text.secondary',
-        textTransform: 'capitalize',
-        fontWeight: 'fontWeightMedium',
-        ...(active && {
-          color: 'primary.main',
-          fontWeight: 'fontWeightSemiBold',
-          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
-          '&:hover': {
-            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
-          },
-        }),
-      }}
-    >
-      <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
-        {item.icon}
-      </Box>
-
-      <Box component="span">{item.title} </Box>
-    </ListItemButton>
-  );
-}
-
-NavItem.propTypes = {
-  item: PropTypes.object,
 };
