@@ -1,12 +1,18 @@
-import { element } from 'prop-types';
+// import { element } from 'prop-types';
 import { lazy, Suspense } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
-// import Settings from 'layouts/dashboard/common/settings';
-
 import DashboardLayout from 'src/layouts/dashboard';
+import Profile from 'src/layouts/dashboard/common/profile';
+import Settings from 'src/layouts/dashboard/common/settings';
 
-export const NavPops = lazy(() => import('src/layouts/dashboard/common/account-popover'));
+
+// ----------------------------------------------------------------------
+
+
+
+
+
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
@@ -31,7 +37,11 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
-        { path: 'settings', element: <NavPops /> },
+        { path:'/settings', element: <Settings /> },
+        { path:'/profile', element: <Profile /> },
+        
+
+
       ],
     },
     {
@@ -46,8 +56,8 @@ export default function Router() {
       path: '*',
       element: <Navigate to="/404" replace />,
     },
-    { path: '/settings', element: <NavPops to="/settings" replace /> },
+
   ]);
 
   return routes;
-}
+};

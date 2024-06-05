@@ -1,9 +1,5 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-
-import { RouterLink } from 'src/routes/components';
 
 import Logo from 'src/components/logo';
 
@@ -36,13 +32,18 @@ export default function NotFoundView() {
           width: '100%',
           height: '100%',
           zIndex: -1,
-          backgroundImage: `url("public/assets/illustrations/background404.png")`,
+          backgroundImage: `url("/public/assets/illustrations/backgroundPng.png")`,
           backgroundSize: 'auto',
           backgroundPosition: 'center',
           backgroundColor: '#e0e0e0',
           backgroundRepeat: 'repeat',
+          margin: 0, 
+          padding: 0,
+          border: 'none',
         }}
       />
+
+        
       <Container sx={{ position: 'relative', zIndex: 1 }}>
         <Box
           sx={{
@@ -57,25 +58,13 @@ export default function NotFoundView() {
             justifyContent: 'center',
           }}
         >
-          <Typography variant="h3" sx={{ mb: 3 }}>
-            صفحه یافت نشد!
-          </Typography>
+          <img src="/assets/illustrations/404.svg" alt="Your " style={{ width: '550px', height: '200px', margin: '10px auto' }} />
+          <img src="/assets/illustrations/404Title.svg" alt="Your " style={{ width: '400px', height: '400px', margin: '-100px auto' }} />
 
-          <Typography sx={{ color: 'text.secondary' }}>
-            با عرض پوزش صفحه مورد نظر یافت نشد .دکمه بازگشت را فشار دهید
-          </Typography>
-
-          <Button
-            sx={{
-              marginTop: 20,
-            }}
-            href="/"
-            size="large"
-            variant="contained"
-            component={RouterLink}
-          >
-            بازگشت
-          </Button>
+          <a href="/"  style={{ display: 'inline-block', textDecoration: 'none' }}>
+          <img src="/assets/illustrations/404Button.svg" alt="بازگشت" style={{ width: '200px', height: '50px' }} />
+          </a>
+          
         </Box>
       </Container>
     </div>
