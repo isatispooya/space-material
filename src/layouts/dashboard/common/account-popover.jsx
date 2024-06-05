@@ -14,21 +14,25 @@ import { account } from 'src/_mock/account';
 
 
 
+
+
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
+    path: '/home',
   },
   {
     label: 'Profile',
     icon: 'eva:person-fill',
+    path: '/profile',
   },
   {
     label: 'Settings',
-    src : '/settings',
     icon: 'eva:settings-2-fill',
+    path: '/settings',
   },
 ];
 
@@ -46,15 +50,22 @@ export default function AccountPopover() {
     setOpen(null);
   };
   const handleMenuOptionClick = (option) => {
-    if (option.src) {
-      Navigate(option.src); 
+    if (option.path === '/settings') {
+      Navigate('/settings');
+
+    } else if (option.path === 'Home') {
+      Navigate('/home');
+    } else if (option.path === '/profile') {
+      Navigate('/profile');
+    }
+    else if (option.src) {
+      Navigate(option.src);
     }
     handleClose();
   };
 
   return (
     <>
-    
       <IconButton
         onClick={handleOpen}
         sx={{
