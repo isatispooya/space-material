@@ -46,9 +46,7 @@ export default function Router() {
       path: '*',
       element: <Navigate to="/404" replace />,
     },
-    { path: 'settings',
-     element: <NavPops to="/settings" replace />
-    },
+    { path: '/settings', element: <NavPops to="/settings" replace /> },
   ]);
 
   return routes;
