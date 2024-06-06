@@ -22,7 +22,7 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
-    path: '/home',
+    path: '/',
   },
   {
     label: 'Profile',
@@ -53,8 +53,8 @@ export default function AccountPopover() {
     if (option.path === '/settings') {
       Navigate('/settings');
 
-    } else if (option.path === 'Home') {
-      Navigate('/home');
+    } else if (option.path === '/') {
+      Navigate('/');
     } else if (option.path === '/profile') {
       Navigate('/profile');
     }

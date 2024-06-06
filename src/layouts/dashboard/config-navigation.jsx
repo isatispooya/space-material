@@ -13,9 +13,21 @@ const navConfig = [
     icon: icon('ic_analytics'),
   },
     {
-    title: 'user',
+    title: 'مدیریت',
     path: '/user',
     icon: icon('ic_user'),
+    children:[
+      {
+        title: 'کاربران',
+        path: '/user',
+        icon: icon('ic_cart'),
+      },
+      {
+        title: 'شرکت ها',
+        path: '/composes',
+        icon: icon('ic_cart'),
+      },
+    ]
   },
   
   {
