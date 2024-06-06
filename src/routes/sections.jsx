@@ -9,6 +9,9 @@ import Profile from 'src/layouts/dashboard/common/profile';
 import Settings from 'src/layouts/dashboard/common/settings';
 
 
+
+
+
 // ----------------------------------------------------------------------
 
 
@@ -41,6 +44,9 @@ export default function Router() {
         { path: 'blog', element: <BlogPage /> },
         { path:'/settings', element: <Settings /> },
         { path:'/profile', element: <Profile /> },
+        
+        
+       
         
 
 
