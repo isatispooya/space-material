@@ -6,7 +6,7 @@ import DashboardLayout from 'src/layouts/dashboard';
 import Profile from 'src/layouts/dashboard/common/profile';
 import Settings from 'src/layouts/dashboard/common/settings';
 
-import ProfilePhotoUploader from 'src/components/forms';
+import ProfilePhotoUploader  from 'src/components/forms';
 
 
 
