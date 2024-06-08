@@ -1,88 +1,60 @@
-import SvgColor from 'src/components/svg-color';
+import React from 'react';
+import { List, ListItem, ListItemText, Collapse } from '@mui/material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom';
 
-// ----------------------------------------------------------------------
+import { fetcher } from 'src/api/fetchers'; 
+import { Onrun } from 'src/api/OnRun';
+import useSWR from 'swr';
 
-const icon = (name) => (
-  <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
-);
+const NavConfig = () => {
+  const { data: navConfig, error, isLoading: navConfig_isLoading } = useSWR(`${Onrun}/api/menus`, fetcher); 
+  const location = useLocation();
 
-const navConfig = [
-  {
-    title: 'dashboard',
-    path: '/',
-    icon: icon('ic_analytics'),
-  },
-    {
-    title: 'مدیریت',
-    path: '/user',
-    icon: icon('ic_user'),
-    children:[
-      {
-        title: 'کاربران',
-        path: '/user',
-        icon: icon('ic_cart'),
-      },
-      {
-        title: 'شرکت ها',
-        path: '/composes',
-        icon: icon('ic_cart'),
-      },
-    ]
-  },
+  const [open, setOpen] = React.useState({});
   
-  {
-    title: 'product',
-    path: '/products',
-    icon: icon('ic_cart'),
-    children:[ 
-      {
-    title: 'data1',
-    path: '/products',
-    icon: icon('ic_cart')
-  },
-    {title: 'data2',
-    path: '/products',
-    icon: icon('ic_cart'),
-    children:[
-      {
-        title: 'data3',
-        path: '/products',
-        icon: icon('ic_cart'),
-        children:[
+  if (error) return <div>Error</div>;
+  if (navConfig_isLoading) return <div>Loading</div>;
 
-          {title: 'data4',
-          path: '/products',
-          icon: icon('ic_cart'),
-          children:[
+  const handleClick = (item) => {
+    if (item.children) {
+      setOpen(prevOpen => ({
+        ...prevOpen,
+        [item.title]: !prevOpen[item.title]
+      }));
+    } else if (item.url && location.pathname !== item.url) {
+      window.location.href = item.url;
+    }
+  };
 
-            {title: 'data5',
-            path: '/products',
-            icon: icon('ic_cart'),}
-          ]
-        }
+  return (
+    <List>
+      {navConfig.map((item) => (
+        <div key={item.title}>
+          <ListItem onClick={() => handleClick(item)} button>
+            <ListItemText primary={item.title} />
+            {item.children && (
+              <>
+                {item.icon !== null && item.icon}
+                {open[item.title] ? <ExpandLess /> : <ExpandMore />}
+              </>
+            )}
+          </ListItem>
+          {item.children && (
+            <Collapse in={open[item.title]} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {item.children.map((child) => (
+                  <ListItem key={child.title} button   sx={{ pl: 4 }}onClick={() => {window.location.href = child.url;}}>
+                    <ListItemText primary={child.title} />
+                  </ListItem>
+                ))}
+              </List>
+            </Collapse>
+          )}
+        </div>
+      ))}
+    </List>
+  );
+};
 
-        ]
-
-      },
-    ]
-  }
-  ]
-  },
-  {
-    title: 'blog',
-    path: '/blog',
-    icon: icon('ic_blog'),
-  },
-  {
-    title: 'login',
-    path: '/login',
-    icon: icon('ic_lock'),
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: icon('ic_disabled'),
-  },
-];
-
-export default navConfig;
+export default NavConfig;
