@@ -1,69 +1,64 @@
 import PropTypes from 'prop-types';
+import React from 'react';
+import useSWR from 'swr';
+import { ReactTabulator } from 'react-tabulator';
+import 'react-tabulator/lib/styles.css'; 
+import 'react-tabulator/css/tabulator_simple.min.css'; 
+import axios from 'axios';
+import { Onrun } from 'src/api/OnRun';
 
-import Tooltip from '@mui/material/Tooltip';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
+const tableContainerStyle = {
+  margin: '20px',
+  background: 'rgba(133, 169, 255, 0.8)', 
+  borderRadius: '15px', 
+  padding: '20px',
+  boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+};
 
-import Iconify from 'src/components/iconify';
+const tableTitleStyle = {
+  textAlign: 'center',
+  marginBottom: '20px',
+  fontFamily: 'Arial, sans-serif',
+  color: '#fff', 
+};
 
-// ----------------------------------------------------------------------
+const fetcher = url => axios.get(url).then(res => res.data);
 
-export default function UserTableToolbar({ numSelected, filterName, onFilterName }) {
+const isPersonFormatter = cell => cell.getValue() ? 'حقیقی' : 'حقوقی';
+
+const TableComponent = ({ isPerson }) => {
+  const { data, isLoading, error } = useSWR(`${Onrun}/api/user/`, fetcher);
+
+  if (error) return <div>Error</div>;
+  if (isLoading) return <div>Loading</div>;
+
+  const columns = [
+    { title: "نام کاربری", field: "username", hozAlign: "left", formatter: "username", editor: true, width:100 }, 
+    { title: "نام", field: "first_name", editor: "input", width: 100}, 
+    { title: "نام خانوادگی", field: "last_name", editor: "input", width:100 }, 
+    { title: "کدملی", field: "national_code", hozAlign: "left", formatter: "national_code", editor: true, width:100 }, 
+    { title: "شماره همراه", field: "mobile", hozAlign: "left", formatter: "mobile", editor: true, width:125 }, 
+    { title: "تلفن", field: "phone", hozAlign: "left", formatter: "phone", editor: true, width:100 }, 
+    { title: "محل صدور", field: "issue", hozAlign: "left", formatter: "issue", editor: true, width:100 }, 
+    { title: "ایمیل", field: "email", hozAlign: "left", formatter: "email", editor: true, width:150 }, 
+    { title: "شخص", field: "is_person", width: 100, formatter: isPersonFormatter, editor: false }, 
+    { title: "وضعیت", field: "status", width: 100, hozAlign: "center", formatter: "tickCross", sorter: "boolean", editor: true }
+  ];
+
   return (
-    <Toolbar
-      sx={{
-        height: 96,
-        display: 'flex',
-        justifyContent: 'space-between',
-        p: (theme) => theme.spacing(0, 1, 0, 3),
-        ...(numSelected > 0 && {
-          color: 'primary.main',
-          bgcolor: 'primary.lighter',
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography component="div" variant="subtitle1">
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <OutlinedInput
-          value={filterName}
-          onChange={onFilterName}
-          placeholder="Search user..."
-          startAdornment={
-            <InputAdornment position="start">
-              <Iconify
-                icon="eva:search-fill"
-                sx={{ color: 'text.disabled', width: 20, height: 20 }}
-              />
-            </InputAdornment>
-          }
-        />
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <Iconify icon="eva:trash-2-fill" />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <Iconify icon="ic:round-filter-list" />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
+    <div style={tableContainerStyle}>
+      <h1 style={tableTitleStyle}>دیتای جدول</h1>
+      <ReactTabulator
+        data={data}
+        columns={columns}
+        layout="fitData"
+      />
+    </div>
   );
 }
 
-UserTableToolbar.propTypes = {
-  numSelected: PropTypes.number,
-  filterName: PropTypes.string,
-  onFilterName: PropTypes.func,
+TableComponent.propTypes = {
+  isPerson: PropTypes.bool.isRequired,
 };
+
+export default TableComponent;

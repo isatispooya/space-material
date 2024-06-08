@@ -1,29 +1,19 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
-// import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-
 import { usePathname } from 'src/routes/hooks';
-
 import { useResponsive } from 'src/hooks/use-responsive';
-
 import { account } from 'src/_mock/account';
-
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
-
-import NavItem from './NavItem';
 import { NAV } from './config-layout';
-import navConfig from './config-navigation';
+import NavConfig from './config-navigation';
 
-
-// ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
@@ -33,8 +23,7 @@ export default function Nav({ openNav, onCloseNav }) {
     if (openNav) {
       onCloseNav();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, openNav, onCloseNav]);
 
   const renderAccount = (
     <Box
@@ -50,8 +39,7 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Avatar src={account.photoURL} alt="photoURL" />
-
-      <Box sx={{ ml: 2, display: 'flex', alignItems: 'center'}}>
+      <Box sx={{ ml: 2, display: 'flex', alignItems: 'center' }}>
         <Typography variant="subtitle2">{account.displayName}</Typography>
       </Box>
     </Box>
@@ -59,14 +47,9 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-      {navConfig.map((item) => (
-        <NavItem key={item.title} item={item} />
-      ))}
+      <NavConfig />
     </Stack>
   );
-
-
-
 
   const renderContent = (
     <Scrollbar
@@ -80,14 +63,9 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Logo sx={{ mt: 3, ml: 4 }} />
-
       {renderAccount}
-
       {renderMenu}
-
       <Box sx={{ flexGrow: 1 }} />
-
-      
     </Scrollbar>
   );
 

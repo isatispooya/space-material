@@ -1,5 +1,6 @@
 // import { element } from 'prop-types';
 
+import { Dashboard, Home } from '@mui/icons-material';
 import { lazy, Suspense } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
@@ -31,11 +32,19 @@ export default function Router() {
       ),
       children: [
         { element: <IndexPage />, index: true },
+<<<<<<< HEAD
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: '/settings', element: <Settings /> },
         { path: '/profile', element: <Profile /> },
+=======
+        { path: 'management', element: <Home/>},
+        { path: 'customer', element: <ProductsPage /> },
+        { path: 'stockaffairs', element: <BlogPage /> },
+        { path:'users', element: <UserPage /> },
+       
+>>>>>>> dc012152aa9aeb4ca926898a339b6845ce616414
       ],
     },
     {

@@ -8,6 +8,10 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { prefixer } from 'stylis';
 import 'react-toastify/dist/ReactToastify.css';
+import 'tabulator-tables/dist/css/tabulator.min.css';
+import 'react-tabulator/lib/styles.css';
+
+
 
 // ----------------------------------------------------------------------
 
