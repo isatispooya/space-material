@@ -121,11 +121,6 @@ export default function Nav({ openNav, onCloseNav }) {
         >
           {renderContent}
         </Drawer>
-
-
-
-
-
       )}
     </Box>
   );

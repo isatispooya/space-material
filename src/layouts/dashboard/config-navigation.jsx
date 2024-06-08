@@ -12,11 +12,11 @@ const navConfig = [
     path: '/',
     icon: icon('ic_analytics'),
   },
-    {
+  {
     title: 'مدیریت',
     path: '/user',
     icon: icon('ic_user'),
-    children:[
+    children: [
       {
         title: 'کاربران',
         path: '/user',
@@ -27,46 +27,58 @@ const navConfig = [
         path: '/composes',
         icon: icon('ic_cart'),
       },
+    ],
+  },
+  {
+    title : 'امور سهام',
+    path : '/stockManagement',
+    icon :  icon('ic_cart'),
+    children : [
+      {
+        title : 'ایجاد شرکت',
+        path : '/create company',
+        icon : icon('ic_user'),
+      },
+      {
+        title : 'مدریت سهامداران',
+        path : '/shareHolders',
+        icon : icon('ic_user'),
+      },
     ]
   },
-  
+
+
   {
     title: 'product',
     path: '/products',
     icon: icon('ic_cart'),
-    children:[ 
+    children: [
       {
-    title: 'data1',
-    path: '/products',
-    icon: icon('ic_cart')
-  },
-    {title: 'data2',
-    path: '/products',
-    icon: icon('ic_cart'),
-    children:[
-      {
-        title: 'data3',
+        title: 'data1',
         path: '/products',
         icon: icon('ic_cart'),
-        children:[
-
-          {title: 'data4',
-          path: '/products',
-          icon: icon('ic_cart'),
-          children:[
-
-            {title: 'data5',
-            path: '/products',
-            icon: icon('ic_cart'),}
-          ]
-        }
-
-        ]
-
       },
-    ]
-  }
-  ]
+      {
+        title: 'data2',
+        path: '/products',
+        icon: icon('ic_cart'),
+        children: [
+          {
+            title: 'data3',
+            path: '/products',
+            icon: icon('ic_cart'),
+            children: [
+              {
+                title: 'data4',
+                path: '/products',
+                icon: icon('ic_cart'),
+                children: [{ title: 'data5', path: '/products', icon: icon('ic_cart') }],
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
     title: 'blog',

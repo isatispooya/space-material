@@ -36,10 +36,8 @@ function Forms() {
     const { value } = event.target;
     setSelectedOption(value);
 
-    // Reset the showTextFields state
     setShowTextFields({ a: false, b: false });
 
-    // Show text fields based on the selected option
     setShowTextFields((prevState) => ({
       ...prevState,
       [value]: true,
@@ -92,17 +90,10 @@ function Forms() {
         <input type="file" accept="image/*" hidden onChange={handleImageChange} />
       </Button>
 
-      {/* <TextField sx={{ marginTop: 10 }} id="outlined-controlled" label="نام و نام خانوادگی" />
-
-      <TextField
-        id="outlined-uncontrolled"
-        label="صادره از"
-        defaultValue="foo"
-        sx={{ marginTop: 5 }}
-      /> */}
-
       <FormControl component="fieldset">
-        <FormLabel sx={{marginTop:20}} component="legend">انتخاب گزینه‌ها</FormLabel>
+        <FormLabel sx={{ marginTop: 20 }} component="legend">
+          انتخاب گزینه‌ها
+        </FormLabel>
         <RadioGroup
           aria-label="options"
           name="options"
@@ -115,7 +106,6 @@ function Forms() {
         <FormHelperText>گزینه‌های مورد نظر خود را انتخاب کنید</FormHelperText>
       </FormControl>
 
-      
       {showTextFields.a && (
         <>
           <TextField
