@@ -1,18 +1,24 @@
-import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+
 import { usePathname } from 'src/routes/hooks';
+
 import { useResponsive } from 'src/hooks/use-responsive';
+
 import { account } from 'src/_mock/account';
+
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
+
 import { NAV } from './config-layout';
-import NavConfig from './config-navigation';
+import {NavConfig} from './config-navigation';
 
 
 export default function Nav({ openNav, onCloseNav }) {

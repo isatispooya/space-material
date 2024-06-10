@@ -24,13 +24,10 @@ export default function App() {
   });
 
   return (
-    
-      <CacheProvider value={cacheRtl}>
-        <ThemeProvider>
-          <Router />
-        </ThemeProvider>
-      </CacheProvider>
-    
-
+    <CacheProvider value={cacheRtl}>
+      <ThemeProvider>
+        <Router />
+      </ThemeProvider>
+    </CacheProvider>
   );
 }

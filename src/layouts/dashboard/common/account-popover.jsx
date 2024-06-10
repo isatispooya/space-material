@@ -12,10 +12,6 @@ import IconButton from '@mui/material/IconButton';
 
 import { account } from 'src/_mock/account';
 
-
-
-
-
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -52,13 +48,11 @@ export default function AccountPopover() {
   const handleMenuOptionClick = (option) => {
     if (option.path === '/settings') {
       Navigate('/settings');
-
     } else if (option.path === '/') {
       Navigate('/');
     } else if (option.path === '/profile') {
       Navigate('/profile');
-    }
-    else if (option.src) {
+    } else if (option.src) {
       Navigate(option.src);
     }
     handleClose();

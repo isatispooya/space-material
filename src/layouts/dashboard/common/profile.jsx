@@ -5,7 +5,7 @@ import Forms from 'src/components/forms';
 export default function Profile() {
   return (
     <div>
-      <Forms/>
+      <Forms />
     </div>
   );
-};
+}
