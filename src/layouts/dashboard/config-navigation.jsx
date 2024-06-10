@@ -8,12 +8,12 @@ import { Onrun } from 'src/api/OnRun';
 import useSWR from 'swr';
 
 const NavConfig = () => {
-  const { data: navConfig, error, isLoading: navConfig_isLoading } = useSWR(`${Onrun}/api/menus`, fetcher); 
+  const { data: navConfig_data, error:navConfig_error, isLoading: navConfig_isLoading } = useSWR(`${Onrun}/api/menus`, fetcher); 
   const location = useLocation();
 
   const [open, setOpen] = React.useState({});
-  
-  if (error) return <div>Error</div>;
+
+  if (navConfig_error) return <div>Error</div>;
   if (navConfig_isLoading) return <div>Loading</div>;
 
   const handleClick = (item) => {
@@ -29,7 +29,7 @@ const NavConfig = () => {
 
   return (
     <List>
-      {navConfig.map((item) => (
+      {navConfig_data.map((item) => (
         <div key={item.title}>
           <ListItem onClick={() => handleClick(item)} button>
             <ListItemText primary={item.title} />

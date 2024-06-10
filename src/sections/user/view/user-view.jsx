@@ -130,7 +130,7 @@ export default function UserPage() {
         gender:genderr,
         marital:marited,
         email:emailAddress,
-        password:password1,
+        pasgord:password1,
         mobile:mobile1,
         phone:phoneNumber,
         address:Address,

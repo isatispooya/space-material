@@ -41,13 +41,13 @@ const TableComponent = ({ isPerson }) => {
     { title: "تلفن", field: "phone", hozAlign: "left", formatter: "phone", editor: true, width:100 }, 
     { title: "محل صدور", field: "issue", hozAlign: "left", formatter: "issue", editor: true, width:100 }, 
     { title: "ایمیل", field: "email", hozAlign: "left", formatter: "email", editor: true, width:150 }, 
-    { title: "شخص", field: "is_person", width: 100, formatter: isPersonFormatter, editor: false }, 
+    { title: "شخص", field: "is_person", width: 100, formatter: isPersonFormatter, editor: false },  
     { title: "وضعیت", field: "status", width: 100, hozAlign: "center", formatter: "tickCross", sorter: "boolean", editor: true }
   ];
 
   return (
     <div style={tableContainerStyle}>
-      <h1 style={tableTitleStyle}>دیتای جدول</h1>
+      <h1 style={tableTitleStyle}>جدول کاربران</h1>
       <ReactTabulator
         data={data}
         columns={columns}

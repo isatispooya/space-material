@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { ProductsView } from 'src/sections/products/view';
+import CustomerView  from 'src/sections/customer/view/customer-view';
 
 // ----------------------------------------------------------------------
 
@@ -8,10 +8,10 @@ export default function ProductsPage() {
   return (
     <>
       <Helmet>
-        <title> Products | Minimal UI </title>
+        <title> Customer | Minimal UI </title>
       </Helmet>
 
-      <ProductsView />
+      <CustomerView />
     </>
   );
 }

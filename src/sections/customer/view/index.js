@@ -1,0 +1,1 @@
+export { default as CustomerPageView } from './customer-view';
