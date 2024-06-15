@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
 import axios from 'axios';
-import {useState } from 'react';
+import {useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -16,8 +16,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Onrun } from 'src/api/OnRun';
 import { users } from 'src/_mock/user';
@@ -26,8 +24,7 @@ import Scrollbar from 'src/components/scrollbar';
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import TableNoData from '../table-no-data';
-import UserTableHead from '../user-table-head';
+import { getCookieValue } from 'src/utils/cookie';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import TableComponent from '../user-table-toolbar';
 
@@ -65,102 +62,66 @@ export default function UserPage() {
 
    const[isPerson,setIsPerson]=useState(true);
 
-
-  const handleSort = (event, id) => {
-    const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-    }
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setPage(0);
-    setRowsPerPage(parseInt(event.target.value, 10));
-  };
-
-  const handleFilterByName = (event) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
-
-
   const handleOpen = () => setOpen(true);
-  const handleClose = async() =>{
+  useEffect(() => {
+    const fetchData = async () => {
+     
+      const token = getCookieValue('UID'); 
+      try {
+        const response = await axios.get(`${Onrun}/api/customer/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    
+        
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleClose = async () => {
     try {
       const data = {
-        username:userName,
-        first_name:firstName,
-        last_name:lastName,
+        username: userName,
+        first_name: firstName,
+        last_name: lastName,
         national_code: nationalCode,
-        is_person:isPerson,
-        issue:issues,
-        status:checked,
-        gender:genderr,
-        marital:marited,
-        email:emailAddress,
-        pasgord:password1,
-        mobile:mobile1,
-        phone:phoneNumber,
-        address:Address,
-        date_birth:dateBirth,
-        card_number_bank:cardNumberBank,
-        shaba_bank:shabaBank
+        is_person: isPerson,
+        issue: issues,
+        status: checked,
+        gender: genderr,
+        marital: marited,
+        email: emailAddress,
+        password: password1, 
+        mobile: mobile1,
+        phone: phoneNumber,
+        address: Address,
+        date_birth: dateBirth,
+        card_number_bank: cardNumberBank,
+        shaba_bank: shabaBank,
       };
-      console.log(data);
       const api = `${Onrun}/api/user/`;
-      const sendApiCode = await axios.post(api, data);
-      console.log("DATA",api,sendApiCode ,data);
+      const sendApiCode = await axios.post(api, data, {
+        headers: {
+          Authorization: `Bearer ${getCookieValue('UID')}`
+        },
+      });
+      console.log("DATA", api, sendApiCode, data);
     } catch (error) {
-      console.log(error);
+      console.error('Error:', error);
       if (error.response) {
-        console.log(error.response.data);
+        console.error('Error Response Data:', error.response.data);
       } else {
-        console.log(error.message)
+        console.error('Error Message:', error.message);
       }
     }
     setOpen(false);
-  } 
+  };
 
- 
-
-
-  const dataFiltered = applyFilter({
-    inputData: users,
-    comparator: getComparator(order, orderBy),
-    filterName,
-  });
 
   const handleChange = (event) => {
   setIsPerson(event.target.value === 'true');
@@ -179,9 +140,6 @@ const handleMarital=(event)=>{
   setMarited(event.target.value === 'true');
 }
 
-
-  const notFound = !dataFiltered.length && !!filterName;
-
   const style = {
     position: 'absolute',
     top: '50%',
@@ -193,7 +151,6 @@ const handleMarital=(event)=>{
     boxShadow: 24,
     p: 4,
   };
-
 
 
   return (

@@ -1,65 +1,84 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import useSWR from 'swr';
-import { ReactTabulator } from 'react-tabulator';
+/* eslint-disable consistent-return */
+/* eslint-disable no-shadow */
+import React, { useEffect, useState } from 'react';
+import { ReactTabulator} from 'react-tabulator';
 import 'react-tabulator/lib/styles.css'; 
-import 'react-tabulator/css/tabulator_simple.min.css'; 
+import 'react-tabulator/css/tabulator.min.css'; 
 import axios from 'axios';
-
 import { Onrun } from 'src/api/OnRun';
+import { TabulatorFull
+    as Tabulator
+ } from 'tabulator-tables';
 
-const tableContainerStyle = {
-  margin: '20px',
-  background: 'rgba(133, 169, 255, 0.8)', 
-  borderRadius: '15px', 
-  padding: '20px',
-  boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-};
 
-const tableTitleStyle = {
-  textAlign: 'center',
-  marginBottom: '20px',
-  fontFamily: 'Arial, sans-serif',
-  color: '#fff', 
-};
 
-const fetcher = url => axios.get(url).then(res => res.data);
+const TableComponent = () => {
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-const isPersonFormatter = cell => cell.getValue() ? 'حقیقی' : 'حقوقی';
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const response = await axios.get(`${Onrun}/api/user/`, {
+                    headers: {
+                        Authorization: `Bearer ${getCookieValue('UID')}`,
+                    },
+                });
+                setData(response.data);
+                setIsLoading(false);
+            } catch (error) {
+                setError(error);
+                setIsLoading(false);
+            }
+        };
 
-const TableComponent = ({ isPerson }) => {
-  const { data, isLoading, error } = useSWR(`${Onrun}/api/user/`, fetcher);
+        fetchData();
+    }, []);
 
-  if (error) return <div>Error</div>;
-  if (isLoading) return <div>Loading</div>;
+    const isPersonFormatter = (cell) => (cell.getValue() ? 'حقیقی' : 'حقوقی');
 
-  const columns = [
-    { title: "نام کاربری", field: "username", hozAlign: "left", formatter: "username", editor: true, width:100 }, 
-    { title: "نام", field: "first_name", editor: "input", width: 100}, 
-    { title: "نام خانوادگی", field: "last_name", editor: "input", width:100 }, 
-    { title: "کدملی", field: "national_code", hozAlign: "left", formatter: "national_code", editor: true, width:100 }, 
-    { title: "شماره همراه", field: "mobile", hozAlign: "left", formatter: "mobile", editor: true, width:125 }, 
-    { title: "تلفن", field: "phone", hozAlign: "left", formatter: "phone", editor: true, width:100 }, 
-    { title: "محل صدور", field: "issue", hozAlign: "left", formatter: "issue", editor: true, width:100 }, 
-    { title: "ایمیل", field: "email", hozAlign: "left", formatter: "email", editor: true, width:150 }, 
-    { title: "شخص", field: "is_person", width: 100, formatter: isPersonFormatter, editor: false },  
-    { title: "وضعیت", field: "status", width: 100, hozAlign: "center", formatter: "tickCross", sorter: "boolean", editor: true }
-  ];
+    const getCookieValue = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
 
-  return (
-    <div style={tableContainerStyle}>
-      <h1 style={tableTitleStyle}>جدول کاربران</h1>
-      <ReactTabulator
-        data={data}
-        columns={columns}
-        layout="fitData"
-      />
-    </div>
-  );
-}
+    const rowMenu = [
+        {
+            label: 'ویرایش',
+            action: (e, row)=> {
+                console.log('ویرایش ', row.getData());
+            }
+        },
+        {
+            label: 'حذف',
+            action: (e, row)=> {
+                row.delete();
+            }
+        }
+    ];
 
-TableComponent.propTypes = {
-  isPerson: PropTypes.bool.isRequired,
+    const Table=new Tabulator("#table",{
+        rowContextMenu: rowMenu,
+        data,
+         columns : [
+            { title: 'نام کاربری', field: 'username', hozAlign: 'left', width: 110, headerFilter: 'input' },
+            { title: 'نام', field: 'first_name', width: 120, headerFilter: 'input' },
+            { title: 'نام خانوادگی', field: 'last_name', width: 125, headerFilter: 'input' },
+            { title: 'کدملی', field: 'national_code', hozAlign: 'left', width: 125, headerFilter: 'input' },
+            { title: 'شماره همراه', field: 'mobile', hozAlign: 'left', width: 125, headerFilter: 'input' },
+            { title: 'تلفن', field: 'phone', hozAlign: 'left', width: 100, headerFilter: 'input' },
+            { title: 'محل صدور', field: 'issue', hozAlign: 'left', width: 100, headerFilter: 'input' },
+            { title: 'ایمیل', field: 'email', hozAlign: 'left', width: 150, headerFilter: 'input' },
+            { title: 'شخص', field: 'is_person', width: 100, formatter: isPersonFormatter, headerFilter: 'input' },
+            { title: 'وضعیت', field: 'status', width: 100, hozAlign: 'center', formatter: 'tickCross', sorter: 'boolean', headerFilter: 'input' },
+        ]
+    });
+
+    return( <div id='table' />)
+
 };
 
 export default TableComponent;

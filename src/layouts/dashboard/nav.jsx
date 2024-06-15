@@ -18,7 +18,7 @@ import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 
 import { NAV } from './config-layout';
-import {NavConfig} from './config-navigation';
+import NavConfig from './config-navigation';
 
 
 export default function Nav({ openNav, onCloseNav }) {

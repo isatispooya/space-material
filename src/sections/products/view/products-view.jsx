@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/iconify';
 
-import TableComponent from '../productTable';
+// import TableComponent from '../productTable';
 
 
 
@@ -30,9 +30,7 @@ export default function UserPage() {
         </Button>
       </Stack>
 
-      <Card>
-        <TableComponent/>
-      </Card>
+    
     </Container>
   );
 }
