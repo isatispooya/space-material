@@ -58,9 +58,9 @@ export default function UserPage() {
    const[dateBirth,setDatebirth]=useState();
    const[shabaBank,setShabaBank]=useState();
    const[cardNumberBank,setcardNumberBank]=useState();
-
-
    const[isPerson,setIsPerson]=useState(true);
+
+
 
   const handleOpen = () => setOpen(true);
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function UserPage() {
             Authorization: `Bearer ${token}`,
           },
         });
-    
+    console.log(response);
         
       } catch (error) {
         console.log(error);
@@ -170,8 +170,9 @@ const handleMarital=(event)=>{
   open={open}
   onClose={handleClose}
   aria-labelledby="modal-modal-title"
-  aria-describedby="modal-modal-description"
->
+  aria-describedby="modal-modal-description">
+
+
   <Box sx={style}>
     <Typography id="modal-modal-title" variant="h6" component="h2">
       افزودن کاربر جدید
