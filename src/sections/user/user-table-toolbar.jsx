@@ -4,13 +4,15 @@ import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator_simple.min.css';
 import axios from 'axios';
 import Modal from 'react-modal';
-import { Onrun } from 'src/api/OnRun';
 import { TabulatorFull as Tabulator } from 'tabulator-tables';
-import {Box,Typography,Grid, FormControl,RadioGroup,FormControlLabel,Radio,TextField,Button,Switch,Container,Stack,Card} from '@mui/material';
-import DatePicker from 'react-multi-date-picker';
-import persian from 'react-date-object/calendars/persian';
-import persian_fa from 'react-date-object/locales/persian_fa';
+import {
+  Box,
+  Typography,
+  Grid,
+  Container,
+} from '@mui/material';
 import { getCookieValue } from 'src/utils/cookie';
+import { Onrun } from 'src/api/OnRun';
 import UserDetail from './userDetail';
 import UserUpdate from './userUpdate';
 
@@ -20,23 +22,10 @@ const TableComponent = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalData, setModalData] = useState(null);
-  const [isPerson, setIsPerson] = useState(true);
-  const [gender, setGender] = useState('');
-  const [checked, setChecked] = useState(false);
-  const [dateBirth, setDatebirth] = useState();
-  const handleOpen = () => setIsModalOpen(true);
-  const handleClose = () => setIsModalOpen(false);
-  const [genderr, setGenderr] = useState('');
-  const [marited, setMarited] = useState('');
   const [viewModalData, setViewModalData] = useState(null);
-  const [updateModalData,setUpdateModalData]=useState(null)
+  const [updateModalData, setUpdateModalData] = useState(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-
-
-  const isPersonFormatter = (cell) => (cell.getValue() ? 'حقیقی' : 'حقوقی');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,7 +99,7 @@ const TableComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-
+  const isPersonFormatter = (cell) => (cell.getValue() ? 'حقیقی' : 'حقوقی');
 
   const handleViewModel = async (row) => {
     try {
@@ -120,7 +109,6 @@ const TableComponent = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response);
       setViewModalData(response.data);
       setIsViewModalOpen(true);
     } catch (error) {
@@ -130,16 +118,17 @@ const TableComponent = () => {
       }
     }
   };
+  
 
   const handleUpdateModel = async (row) => {
-    console.log(row.getData());
     setUpdateModalData(row.getData());
-    setIsUpdateModalOpen(true)
+    setIsUpdateModalOpen(true);
   };
+
   const handleDelete = async (row) => {
     try {
       const token = getCookieValue('UID');
-      const response = await axios.get(`${Onrun}/api/user/${row.getData().id}/`, {
+      const response = await axios.delete(`${Onrun}/api/user/${row.getData().id}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -175,16 +164,26 @@ const TableComponent = () => {
       },
     },
   ];
-console.log(updateModalData);
-  return (
-    <>
-      <div>
-        <div id="table" />
-      </div>
 
+  return (
+    <Container >
+      <Box mt={4}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Box boxShadow={3} p={3} borderRadius={2} bgcolor="background.paper" >
+              <div id="table" />
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
       <UserDetail viewModalData={viewModalData} />
-      <UserUpdate updateModalData={updateModalData} setUpdateModalData={setUpdateModalData} />
-    </>
+      <UserUpdate
+        updateModalData={updateModalData}
+        setUpdateModalData={setUpdateModalData}
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+      />
+    </Container>
   );
 };
 

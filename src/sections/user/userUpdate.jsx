@@ -44,12 +44,7 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
     if (updateModalData) {
       setIsOpen(true);
       }
-    console.log(1);
   }, [updateModalData]);
-
-
-
-  console.log(isOpen);
 
   const handleChange = (event) => {
     setUpdateModalData({ ...updateModalData, is_person: event.target.value === 'true' });
@@ -80,8 +75,6 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('Edited:', response.data);
-
       setIsOpen(false);
     } catch (error) {
       console.error('Error:', error);

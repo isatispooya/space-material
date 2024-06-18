@@ -35,6 +35,11 @@ const UserDetail = ({ viewModalData }) => {
   const labelStyle = {
     fontWeight: 'bold',
     marginRight: 1,
+    color: 'text.secondary',
+  };
+
+  const valueStyle = {
+    color: 'text.primary',
   };
 
   useEffect(() => {
@@ -60,75 +65,72 @@ const UserDetail = ({ viewModalData }) => {
         {viewModalData && (
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>نام کاربری:</span> {viewModalData.username}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>نام:</span> {viewModalData.first_name}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>نام خانوادگی:</span> {viewModalData.last_name}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>کد ملی:</span> {viewModalData.national_code}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>محل صدور:</span> {viewModalData.issue}
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Grid item xs={12}>
-                <Divider variant="middle" />
-              </Grid>
-              <Divider variant="middle" />
+              <Divider variant="middle" sx={{ my: 2 }} />
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>ایمیل:</span> {viewModalData.email}
               </Typography>
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>شماره موبایل:</span> {viewModalData.mobile}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>تلفن:</span> {viewModalData.phone}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>شماره کارت:</span> {viewModalData.card_number_bank}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>شماره شبا:</span> {viewModalData.shaba_bank}
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Divider variant="middle" />
+              <Divider variant="middle" sx={{ my: 2 }} />
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>تاریخ تولد:</span> {viewModalData.date_birth}
               </Typography>
             </Grid>
             {viewModalData.gender && (
               <Grid item xs={12} sm={6}>
-                <Typography variant="body1">
+                <Typography variant="body1" sx={valueStyle}>
                   <span style={labelStyle}>جنسیت:</span>{' '}
                   {viewModalData.gender === 'F'
                     ? 'زن'
@@ -140,30 +142,30 @@ const UserDetail = ({ viewModalData }) => {
             )}
             {viewModalData.marited !== undefined && (
               <Grid item xs={12} sm={6}>
-                <Typography variant="body1">
+                <Typography variant="body1" sx={valueStyle}>
                   <span style={labelStyle}>وضعیت تاهل:</span>{' '}
                   {viewModalData.marited ? 'متاهل' : 'مجرد'}
                 </Typography>
               </Grid>
             )}
             <Grid item xs={12}>
-              <Divider variant="middle" />
+              <Divider variant="middle" sx={{ my: 2 }} />
             </Grid>
 
             {viewModalData.status !== undefined && (
               <Grid item xs={12} sm={6}>
-                <Typography variant="body1">
+                <Typography variant="body1" sx={valueStyle}>
                   <span style={labelStyle}>وضعیت:</span>{' '}
                   {viewModalData.status ? 'فعال' : 'غیر فعال'}
                 </Typography>
               </Grid>
             )}
             <Grid item xs={12}>
-              <Divider variant="middle" />
+              <Divider variant="middle" sx={{ my: 2 }} />
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={valueStyle}>
                 <span style={labelStyle}>آدرس:</span> {viewModalData.address}
               </Typography>
             </Grid>
