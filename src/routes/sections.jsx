@@ -16,6 +16,8 @@ export const UserPage = lazy(() => import('src/pages/user'));
 export const StockManagement = lazy(() => import('src/sections/stockManagement/stockManagement'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const CustomerPage = lazy(() => import('src/pages/customer'));
+export const CompanyPage = lazy(() => import('src/pages/company'));
+
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
@@ -39,6 +41,7 @@ export default function Router() {
         { path: '/profile', element: <Profile /> },
         { path: 'management', element: <Home/>},
         { path: 'customer', element: <CustomerPage /> },
+        { path: 'company', element: <CompanyPage /> },
         { path: 'stockaffairs', element: <BlogPage /> },
         { path:'users', element: <UserPage /> },
        

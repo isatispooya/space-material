@@ -39,6 +39,16 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
     p: 4,
   };
 
+  const headerStyle = {
+    bgcolor: 'rgba(0, 123, 255, 0.1)',
+    color: 'primary.main',
+    p: 2,
+    borderTopLeftRadius: '10px',
+    borderTopRightRadius: '10px',
+    mb: 3,
+    textAlign: 'center',
+  };
+
 
   useEffect(() => {
     if (updateModalData) {
@@ -92,7 +102,7 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
       aria-describedby="modal-view-description"
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
+        <Typography sx={headerStyle} id="modal-modal-title" variant="h6" component="h2">
           ویرایش کاربر
         </Typography>
 
@@ -494,17 +504,17 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
             )}
 
             <Grid item xs={12}>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' ,marginRight:'20px' }}>
                 <Button
                   onClick={() => setIsOpen(false)}
-                  style={{ backgroundColor: 'red', color: 'white' }}
+                  style={{ backgroundColor: '#bdbdbd', color: 'white'}}
                   variant="contained"
                 >
                   لغو
                 </Button>
                 <Button
                   onClick={handleSave}
-                  style={{ backgroundColor: 'green', color: 'white', marginLeft: '8px' }}
+                  style={{ backgroundColor: '#29b6f6', color: 'white', marginLeft: '8px' }}
                   variant="contained"
                 >
                   ذخیره

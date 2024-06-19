@@ -5,11 +5,11 @@ import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator_simple.min.css';
 import axios from 'axios';
 import { Onrun } from 'src/api/OnRun';
-import { getCookieValue } from 'src/utils/cookie';
+import { getCookieValue } from '../../../utils/cookie';
 import 'tabulator-tables/dist/css/tabulator.min.css';
 
 const TableComponent = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -23,6 +23,7 @@ const TableComponent = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -44,6 +45,7 @@ const TableComponent = () => {
 
   return (
     <div>
+      {data && data.length === 0 && <div>داده‌ای برای نمایش وجود ندارد.</div>}
       <ReactTabulator
         columns={columns}
         layout="fitData"

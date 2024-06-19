@@ -3,6 +3,7 @@ import { Box, Grid, Modal, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Divider from '@mui/material/Divider';
+import { BorderBottom } from '@mui/icons-material';
 
 const UserDetail = ({ viewModalData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,11 +36,17 @@ const UserDetail = ({ viewModalData }) => {
   const labelStyle = {
     fontWeight: 'bold',
     marginRight: 1,
-    color: 'text.secondary',
+    color: 'secondary.main',
   };
 
   const valueStyle = {
     color: 'text.primary',
+    fontWeight: 'bold',
+  };
+
+  const dividerStyle = {
+    my: 2,
+    borderColor: 'primary.light',
   };
 
   useEffect(() => {
@@ -90,7 +97,7 @@ const UserDetail = ({ viewModalData }) => {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Divider variant="middle" sx={{ my: 2 }} />
+              <Divider variant="middle" sx={dividerStyle} />
             </Grid>
 
             <Grid item xs={12} sm={6}>
@@ -120,7 +127,7 @@ const UserDetail = ({ viewModalData }) => {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Divider variant="middle" sx={{ my: 2 }} />
+              <Divider variant="middle" sx={dividerStyle} />
             </Grid>
 
             <Grid item xs={12} sm={6}>
@@ -149,7 +156,7 @@ const UserDetail = ({ viewModalData }) => {
               </Grid>
             )}
             <Grid item xs={12}>
-              <Divider variant="middle" sx={{ my: 2 }} />
+              <Divider variant="middle" sx={dividerStyle} />
             </Grid>
 
             {viewModalData.status !== undefined && (
@@ -161,7 +168,7 @@ const UserDetail = ({ viewModalData }) => {
               </Grid>
             )}
             <Grid item xs={12}>
-              <Divider variant="middle" sx={{ my: 2 }} />
+              <Divider variant="middle" sx={dividerStyle} />
             </Grid>
 
             <Grid item xs={12}>

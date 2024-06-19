@@ -4,8 +4,8 @@ import Iconify from 'src/components/iconify';
 import axios from 'axios';
 import { Onrun } from 'src/api/OnRun';
 import Autocomplete from '@mui/material/Autocomplete';
-import TableComponent from '../customerTable';
-import { getCookieValue } from '../../../utils/cookie';
+import TableComponent from './view/customerTable';
+import { getCookieValue } from '../../utils/cookie';
 
 const style = {
   position: 'absolute',
@@ -33,7 +33,7 @@ function CustomModal({ open, handleClose }) {
       try {
         const token = getCookieValue('UID');
         const [companiesResponse, usersResponse] = await Promise.all([
-          axios.get(`${Onrun}/api/companies/`, {
+          axios.get(`${Onrun}/api/customer/`, {
             headers: {
               Authorization: `Bearer ${token}`
             }

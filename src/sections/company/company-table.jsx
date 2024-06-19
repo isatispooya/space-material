@@ -5,18 +5,11 @@ import 'react-tabulator/css/tabulator_simple.min.css';
 import axios from 'axios';
 import Modal from 'react-modal';
 import { TabulatorFull as Tabulator } from 'tabulator-tables';
-import {
-  Box,
-  Typography,
-  Grid,
-  Container,
-} from '@mui/material';
+import { Box, Typography, Grid, Container } from '@mui/material';
 import { getCookieValue } from 'src/utils/cookie';
 import { Onrun } from 'src/api/OnRun';
-import UserDetail from './userDetail';
-import UserUpdate from './userUpdate';
-
-Modal.setAppElement('#root');
+import UpdateCompany from './company-update';
+import DetailCompany from './company-detail';
 
 const TableComponent = () => {
   const [data, setData] = useState([]);
@@ -27,24 +20,24 @@ const TableComponent = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(`${Onrun}/api/user/`, {
-          headers: {
-            Authorization: `Bearer ${getCookieValue('UID')}`,
-          },
-        });
-        setData(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        setError(error);
-        setIsLoading(false);
-      }
-    };
+  const GetTableData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${Onrun}/api/company/`, {
+        headers: {
+          Authorization: `Bearer ${getCookieValue('UID')}`,
+        },
+      });
+      setData(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error);
+      setIsLoading(false);
+    }
+  };
 
-    fetchData();
+  useEffect(() => {
+    GetTableData();
   }, []);
 
   useEffect(() => {
@@ -53,44 +46,33 @@ const TableComponent = () => {
       data,
       columns: [
         {
-          title: 'نام کاربری',
-          field: 'username',
+          title: 'نام ',
+          field: 'name',
           hozAlign: 'left',
-          width: 110,
+          width: 180,
           headerFilter: 'input',
         },
-        { title: 'نام', field: 'first_name', width: 120, headerFilter: 'input' },
         { title: 'نام خانوادگی', field: 'last_name', width: 125, headerFilter: 'input' },
         {
-          title: 'کدملی',
-          field: 'national_code',
+          title: 'شناسه ملی ',
+          field: 'national_id',
           hozAlign: 'left',
-          width: 125,
+          width: 130,
+          headerFilter: 'input',
+        },
+        { title: 'تلفن', field: 'telephone', hozAlign: 'left', width: 150, headerFilter: 'input' },
+        { title: 'شماره ثبت', field: 'registration_number', hozAlign: 'left', width: 150, headerFilter: 'input' },
+        {
+          title: 'وبسایت',
+          field: 'website',
+          width: 180,
           headerFilter: 'input',
         },
         {
-          title: 'شماره همراه',
-          field: 'mobile',
-          hozAlign: 'left',
-          width: 125,
-          headerFilter: 'input',
-        },
-        { title: 'تلفن', field: 'phone', hozAlign: 'left', width: 100, headerFilter: 'input' },
-        { title: 'محل صدور', field: 'issue', hozAlign: 'left', width: 100, headerFilter: 'input' },
-        { title: 'ایمیل', field: 'email', hozAlign: 'left', width: 150, headerFilter: 'input' },
-        {
-          title: 'شخص',
-          field: 'is_person',
-          width: 100,
-          formatter: isPersonFormatter,
-          headerFilter: 'input',
-        },
-        {
-          title: 'وضعیت',
-          field: 'status',
-          width: 100,
+          title: 'ثبت سرمایه',
+          field: 'register_capital',
+          width: 140,
           hozAlign: 'center',
-          formatter: 'tickCross',
           sorter: 'boolean',
           headerFilter: 'input',
         },
@@ -99,12 +81,10 @@ const TableComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  const isPersonFormatter = (cell) => (cell.getValue() ? 'حقیقی' : 'حقوقی');
-
   const handleViewModel = async (row) => {
     try {
       const token = getCookieValue('UID');
-      const response = await axios.get(`${Onrun}/api/user/${row.getData().id}/`, {
+      const response = await axios.get(`${Onrun}/api/company/${row.getData().id}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -118,7 +98,6 @@ const TableComponent = () => {
       }
     }
   };
-  
 
   const handleUpdateModel = async (row) => {
     setUpdateModalData(row.getData());
@@ -128,7 +107,7 @@ const TableComponent = () => {
   const handleDelete = async (row) => {
     try {
       const token = getCookieValue('UID');
-      const response = await axios.delete(`${Onrun}/api/user/${row.getData().id}/`, {
+      const response = await axios.delete(`${Onrun}/api/company/${row.getData().id}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -166,22 +145,23 @@ const TableComponent = () => {
   ];
 
   return (
-    <Container >
+    <Container>
       <Box mt={4}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Box boxShadow={3} p={3} borderRadius={2} bgcolor="background.paper" >
+            <Box boxShadow={3} p={3} borderRadius={2} bgcolor="background.paper">
               <div id="table" />
             </Box>
           </Grid>
         </Grid>
       </Box>
-      <UserDetail viewModalData={viewModalData} />
-      <UserUpdate
+      <DetailCompany viewModalData={viewModalData} />
+      <UpdateCompany
         updateModalData={updateModalData}
         setUpdateModalData={setUpdateModalData}
         isOpen={isUpdateModalOpen}
         onClose={() => setIsUpdateModalOpen(false)}
+        GetTableData={GetTableData} 
       />
     </Container>
   );
