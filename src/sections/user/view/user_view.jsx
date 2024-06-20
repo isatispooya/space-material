@@ -1,16 +1,16 @@
-import { Button, Card, Container, Stack, Typography } from '@mui/material';
-import Iconify from 'src/components/iconify';
-import { useEffect, useState } from 'react';
-import { getCookieValue } from 'src/utils/cookie';
+/* eslint-disable no-shadow */
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Onrun } from 'src/api/OnRun';
-import TableComponent from '../company-table';
-import CreateCompany from '../company-create';
-import UpdateCompany from '../company-update';
-import DetailCompany from '../company-detail';
+import { getCookieValue } from 'src/utils/cookie';
+import { Button, Container, Stack, Typography } from '@mui/material';
+import Iconify from 'src/components/iconify';
+import TableComponent from '../user-table';
+import UserUpdate from '../user-update';
+import UserDetail from '../user-detail';
+import UserCreate from '../user-create';
 
-const CompanyView = () => {
-  const [openModal, setOpenModal] = useState(false);
+const UserView = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,6 +18,7 @@ const CompanyView = () => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [viewModalData, setViewModalData] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const rowMenu = [
     {
@@ -40,22 +41,29 @@ const CompanyView = () => {
     },
   ];
 
+  const handleOpen = () => setOpen(true);
+
   const GetTableData = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(`${Onrun}/api/company/`, {
-        headers: {
-          Authorization: `Bearer ${getCookieValue('UID')}`,
-        },
-      });
-      setData(response.data);
-      setIsLoading(false);
-      // eslint-disable-next-line no-shadow
-    } catch (error) {
-      setError(error);
-      setIsLoading(false);
-    }
+    const fetchData = async () => {
+      setIsLoading(true);
+      const token = getCookieValue('UID');
+      try {
+        const response = await axios.get(`${Onrun}/api/user/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setData(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   };
+
   useEffect(() => {
     GetTableData();
   }, []);
@@ -63,15 +71,13 @@ const CompanyView = () => {
   const handleDelete = async (row) => {
     try {
       const token = getCookieValue('UID');
-      const response = await axios.delete(`${Onrun}/api/company/${row.getData().id}/`, {
+      const response = await axios.delete(`${Onrun}/api/user/${row.getData().id}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('Deleted:', response);
 
       setData((prevData) => prevData.filter((item) => item.id !== row.getData().id));
-      // eslint-disable-next-line no-shadow
     } catch (error) {
       console.error('Error:', error);
       if (error.response) {
@@ -83,14 +89,13 @@ const CompanyView = () => {
   const handleViewModel = async (row) => {
     try {
       const token = getCookieValue('UID');
-      const response = await axios.get(`${Onrun}/api/company/${row.getData().id}/`, {
+      const response = await axios.get(`${Onrun}/api/user/${row.getData().id}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setViewModalData(response.data);
       setIsViewModalOpen(true);
-      // eslint-disable-next-line no-shadow
     } catch (error) {
       console.error('Error:', error);
       if (error.response) {
@@ -99,49 +104,45 @@ const CompanyView = () => {
     }
   };
 
-  const handleUpdateModel = async (row) => {
+  const handleUpdateModel = (row) => {
     setUpdateModalData(row.getData());
     setIsUpdateModalOpen(true);
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <Container>
-      <CreateCompany
-        setOpenModal={setOpenModal}
-        openModal={openModal}
-        GetTableData={GetTableData}
-      />
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">شرکت ها</Typography>
+        <Typography variant="h4">کاربران</Typography>
+
         <Button
+          onClick={handleOpen}
           variant="contained"
           color="inherit"
           startIcon={<Iconify icon="eva:plus-fill" />}
-          onClick={() => {
-            setOpenModal(true);
-          }}
         >
-          شرکت جدید
+          کاربر جدید
         </Button>
       </Stack>
-      <DetailCompany viewModalData={viewModalData} />
-
-      <UpdateCompany
+      <UserCreate open={open} setOpen={setOpen} GetTableData={GetTableData} />
+      <UserDetail viewModalData={viewModalData} />
+      <UserUpdate
         updateModalData={updateModalData}
         setUpdateModalData={setUpdateModalData}
         isOpen={isUpdateModalOpen}
         onClose={() => setIsUpdateModalOpen(false)}
         GetTableData={GetTableData}
       />
-      <Card>
-        <TableComponent
-          data={data}
-          setData={setData}
-          rowMenu={rowMenu}
-        />
-      </Card>
+      <TableComponent data={data} setData={setData} rowMenu={rowMenu} />
     </Container>
   );
 };
 
-export default CompanyView;
+export default UserView;

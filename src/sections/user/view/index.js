@@ -1,1 +1,1 @@
-export { default as UserView } from '../user-create';
+export { default as UserView } from './user_view';

@@ -106,10 +106,6 @@ const DetailCompany = ({ viewModalData }) => {
                 <span style={labelStyle}>آدرس:</span> {viewModalData.address}
               </Typography>
             </Grid>
-
-
-
-
           </Grid>
         )}
       </Box>
@@ -121,7 +117,6 @@ DetailCompany.propTypes = {
   viewModalData: PropTypes.shape({
     username: PropTypes.string,
     first_name: PropTypes.string,
-    
   }),
 };
 

@@ -1,1 +1,1 @@
-export { default as CustomerPageView } from '../customer-create';
+export { default as CustomerView } from './customer_view';

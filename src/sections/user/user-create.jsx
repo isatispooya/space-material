@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Modal from '@mui/material/Modal';
 import Radio from '@mui/material/Radio';
 import Button from '@mui/material/Button';
@@ -16,23 +15,21 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Onrun } from 'src/api/OnRun';
-import Iconify from 'src/components/iconify';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
+import PropTypes from 'prop-types';
 import { getCookieValue } from '../../utils/cookie';
-import TableComponent from './view/user-table';
+import TableComponent from './user-table';
 
 // ----------------------------------------------------------------------
-
-export default function UserPage() {
+function UserCreate({ open, setOpen, GetTableData }) {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
   const [genderr, setGenderr] = useState('F');
   const [marited, setMarited] = useState(true);
@@ -50,25 +47,6 @@ export default function UserPage() {
   const [shabaBank, setShabaBank] = useState();
   const [cardNumberBank, setCardNumberBank] = useState();
   const [isPerson, setIsPerson] = useState(true);
-
-  const handleOpen = () => setOpen(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = getCookieValue('UID');
-      try {
-        const response = await axios.get(`${Onrun}/api/customer/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handleClose = async () => {
     try {
@@ -97,7 +75,7 @@ export default function UserPage() {
           Authorization: `Bearer ${getCookieValue('UID')}`,
         },
       });
-      console.log('DATA', api, sendApiCode, data);
+      GetTableData();
     } catch (error) {
       console.error('Error:', error);
       if (error.response) {
@@ -150,29 +128,13 @@ export default function UserPage() {
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">کاربران</Typography>
-
-        <Button
-          onClick={handleOpen}
-          variant="contained"
-          color="inherit"
-          startIcon={<Iconify icon="eva:plus-fill" />}
-        >
-          کاربر جدید
-        </Button>
-      </Stack>
-
-      <Card>
-        <TableComponent />
-      </Card>
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} >
+        <Box sx={style}>
           <Typography sx={headerStyle} id="modal-modal-title" variant="h6" component="h2">
             افزودن کاربر جدید
           </Typography>
@@ -183,11 +145,11 @@ export default function UserPage() {
                 <RadioGroup
                   aria-labelledby="demo-controlled-radio-buttons-group"
                   name="radio-buttons"
-                   value={isPerson}                 
+                  value={isPerson}
                   onChange={handleChange}
                 >
-                  <FormControlLabel  value control={<Radio />} label="حقیقی" />
-                  <FormControlLabel  value={false} control={<Radio />} label="حقوقی" />
+                  <FormControlLabel value control={<Radio />} label="حقیقی" />
+                  <FormControlLabel value={false} control={<Radio />} label="حقوقی" />
                 </RadioGroup>
               </FormControl>
             </Grid>
@@ -298,7 +260,7 @@ export default function UserPage() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <div style={{ marginBottom: '16px' ,padding:"20px"}}>
+                  <div style={{ marginBottom: '16px', padding: '20px' }}>
                     <DatePicker
                       name="dateBirth"
                       calendar={persian}
@@ -493,3 +455,9 @@ export default function UserPage() {
     </Container>
   );
 }
+export default UserCreate;
+UserCreate.propTypes = {
+  setOpen: PropTypes.func,
+  open: PropTypes.bool,
+  GetTableData: PropTypes.func,
+};

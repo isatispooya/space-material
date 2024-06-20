@@ -8,7 +8,7 @@ import { getCookieValue } from 'src/utils/cookie';
 import { Onrun } from 'src/api/OnRun';
 import PropTypes from 'prop-types';
 
-const CreateCompany = ({setOpenModal,openModal}) => {
+const CreateCompany = ({setOpenModal,openModal, GetTableData}) => {
   const [companyName, setCompanyName] = useState('');
   const [nationalId, setNationalId] = useState('');
   const [companyAddress, setCompanyAddress] = useState('');
@@ -19,7 +19,9 @@ const CreateCompany = ({setOpenModal,openModal}) => {
   const [registerCapital, setRegisterCapital] = useState('');
 
 
-  const handleCloseModal = () => {setOpenModal(false)};
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  };
   
 
   const headerStyle = {
@@ -51,7 +53,7 @@ const CreateCompany = ({setOpenModal,openModal}) => {
           Authorization: `Bearer ${token}`, 
         },
       });
-      console.log('Response:', response.data);
+      GetTableData();
       handleCloseModal(); 
     } catch (error) {
       console.error('Error:', error);
@@ -65,7 +67,6 @@ const CreateCompany = ({setOpenModal,openModal}) => {
 
   return (
     <Container>
-
       <Modal
         open={openModal}
         onClose={handleCloseModal}
@@ -173,6 +174,7 @@ const CreateCompany = ({setOpenModal,openModal}) => {
 
 CreateCompany.propTypes = {
   setOpenModal: PropTypes.func,
-  openModal:PropTypes.bool
+  openModal:PropTypes.bool,
+  GetTableData:PropTypes.func
 };
 export default CreateCompany;

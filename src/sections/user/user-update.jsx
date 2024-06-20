@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
 import {
   Box,
@@ -22,10 +21,9 @@ import axios from 'axios';
 import { getCookieValue } from 'src/utils/cookie';
 import { Onrun } from 'src/api/OnRun';
 
-const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const UserUpdate = ({ updateModalData, setUpdateModalData, GetTableData }) => {
   const [checked, setChecked] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const style = {
     position: 'absolute',
@@ -49,13 +47,6 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
     textAlign: 'center',
   };
 
-
-  useEffect(() => {
-    if (updateModalData) {
-      setIsOpen(true);
-      }
-  }, [updateModalData]);
-
   const handleChange = (event) => {
     setUpdateModalData({ ...updateModalData, is_person: event.target.value === 'true' });
   };
@@ -77,15 +68,28 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
     setUpdateModalData({ ...updateModalData, date_birth: formattedDate });
   };
 
+  useEffect(() => {
+    if (updateModalData) {
+      setIsOpen(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateModalData]);
+
   const handleSave = async () => {
     try {
       const token = getCookieValue('UID');
-      const response = await axios.put(`${Onrun}/api/user/${updateModalData.id}/`, updateModalData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.put(
+        `${Onrun}/api/user/${updateModalData.id}/`,
+        updateModalData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      GetTableData();
       setIsOpen(false);
+      setUpdateModalData(null);
     } catch (error) {
       console.error('Error:', error);
       if (error.response) {
@@ -97,7 +101,10 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
   return (
     <Modal
       open={isOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={() => {
+        setIsOpen(false);
+        setUpdateModalData(null);
+      }}
       aria-labelledby="modal-view-title"
       aria-describedby="modal-view-description"
     >
@@ -131,7 +138,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     margin="normal"
                     name="userName"
                     value={updateModalData.username || ''}
-                    onChange={(e) => setUpdateModalData({ ...updateModalData, username: e.target.value })}
+                    onChange={(e) =>
+                      setUpdateModalData({ ...updateModalData, username: e.target.value })
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -142,7 +151,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     name="firstName"
                     value={updateModalData.first_name || ''}
                     required
-                    onChange={(e) => setUpdateModalData({ ...updateModalData, first_name: e.target.value })}
+                    onChange={(e) =>
+                      setUpdateModalData({ ...updateModalData, first_name: e.target.value })
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -152,7 +163,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     margin="normal"
                     name="lastName"
                     value={updateModalData.last_name || ''}
-                    onChange={(e) => setUpdateModalData({ ...updateModalData, last_name: e.target.value })}
+                    onChange={(e) =>
+                      setUpdateModalData({ ...updateModalData, last_name: e.target.value })
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -175,7 +188,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     margin="normal"
                     name="issues"
                     value={updateModalData.issue || ''}
-                    onChange={(e) => setUpdateModalData({ ...updateModalData, issue: e.target.value })}
+                    onChange={(e) =>
+                      setUpdateModalData({ ...updateModalData, issue: e.target.value })
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -185,7 +200,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     margin="normal"
                     name="emailAddres"
                     value={updateModalData.email || ''}
-                    onChange={(e) => setUpdateModalData({ ...updateModalData, email: e.target.value })}
+                    onChange={(e) =>
+                      setUpdateModalData({ ...updateModalData, email: e.target.value })
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -196,7 +213,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     name="mobile1"
                     value={updateModalData.mobile || ''}
                     required
-                    onChange={(e) => setUpdateModalData({ ...updateModalData, mobile: e.target.value })}
+                    onChange={(e) =>
+                      setUpdateModalData({ ...updateModalData, mobile: e.target.value })
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -206,7 +225,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     margin="normal"
                     name="phoneNumber"
                     value={updateModalData.phone || ''}
-                    onChange={(e) => setUpdateModalData({ ...updateModalData, phone: e.target.value })}
+                    onChange={(e) =>
+                      setUpdateModalData({ ...updateModalData, phone: e.target.value })
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -216,7 +237,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     margin="normal"
                     name="password1"
                     required
-                    onChange={(e) => setUpdateModalData({ ...updateModalData, password: e.target.value })}
+                    onChange={(e) =>
+                      setUpdateModalData({ ...updateModalData, password: e.target.value })
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -238,7 +261,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     margin="normal"
                     name="shabaBank"
                     value={updateModalData.shabaBank || ''}
-                    onChange={(e) => setUpdateModalData({ ...updateModalData, shabaBank: e.target.value })}
+                    onChange={(e) =>
+                      setUpdateModalData({ ...updateModalData, shabaBank: e.target.value })
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -268,33 +293,33 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     </RadioGroup>
                   </FormControl>
                 </Grid>
-              <Grid item xs={12} sm={4}>
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="controlled-radio-buttons-group"
-                    value={updateModalData.gender}
-                    onChange={handleGender}
-                  >
-                    <FormControlLabel value="F" control={<Radio />} label="زن" />
-                    <FormControlLabel value="M" control={<Radio />} label="مرد" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="controlled-radio-buttons-group"
-                    value={updateModalData.marited}
-                    onChange={handleMarital}
-                  >
-                    <FormControlLabel value={false} control={<Radio />} label="مجرد" />
-                    <FormControlLabel value control={<Radio />} label="متاهل" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={4}>
+                  <FormControl component="fieldset">
+                    <RadioGroup
+                      aria-labelledby="demo-controlled-radio-buttons-group"
+                      name="controlled-radio-buttons-group"
+                      value={updateModalData.gender}
+                      onChange={handleGender}
+                    >
+                      <FormControlLabel value="F" control={<Radio />} label="زن" />
+                      <FormControlLabel value="M" control={<Radio />} label="مرد" />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FormControl component="fieldset">
+                    <RadioGroup
+                      aria-labelledby="demo-controlled-radio-buttons-group"
+                      name="controlled-radio-buttons-group"
+                      value={updateModalData.marited}
+                      onChange={handleMarital}
+                    >
+                      <FormControlLabel value={false} control={<Radio />} label="مجرد" />
+                      <FormControlLabel value control={<Radio />} label="متاهل" />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={4}>
                   <FormControlLabel
                     label="وضعیت"
                     control={
@@ -307,14 +332,16 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                     }
                   />
                 </Grid>
-              <Grid item xs={12} sm={12}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     label="آدرس"
                     fullWidth
                     margin="normal"
                     name="address"
                     value={updateModalData.address || ''}
-                    onChange={(e) => setUpdateModalData({ ...updateModalData, address: e.target.value })}
+                    onChange={(e) =>
+                      setUpdateModalData({ ...updateModalData, address: e.target.value })
+                    }
                   />
                 </Grid>
               </>
@@ -328,7 +355,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                       margin="normal"
                       name="userName"
                       value={updateModalData.username || ''}
-                      onChange={(e) => setUpdateModalData({ ...updateModalData, username: e.target.value })}
+                      onChange={(e) =>
+                        setUpdateModalData({ ...updateModalData, username: e.target.value })
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} sm={4}>
@@ -363,7 +392,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                       margin="normal"
                       name="issues"
                       value={updateModalData.issue || ''}
-                      onChange={(e) => setUpdateModalData({ ...updateModalData, issue: e.target.value })}
+                      onChange={(e) =>
+                        setUpdateModalData({ ...updateModalData, issue: e.target.value })
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} sm={4}>
@@ -373,7 +404,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                       margin="normal"
                       name="emailAddres"
                       value={updateModalData.email || ''}
-                      onChange={(e) => setUpdateModalData({ ...updateModalData, email: e.target.value })}
+                      onChange={(e) =>
+                        setUpdateModalData({ ...updateModalData, email: e.target.value })
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} sm={4}>
@@ -384,7 +417,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                       name="mobile1"
                       value={updateModalData.mobile || ''}
                       required
-                      onChange={(e) => setUpdateModalData({ ...updateModalData, mobile: e.target.value })}
+                      onChange={(e) =>
+                        setUpdateModalData({ ...updateModalData, mobile: e.target.value })
+                      }
                     />
                   </Grid>
 
@@ -395,7 +430,9 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
                       margin="normal"
                       name="phoneNumber"
                       value={updateModalData.phone || ''}
-                      onChange={(e) => setUpdateModalData({ ...updateModalData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setUpdateModalData({ ...updateModalData, phone: e.target.value })
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} sm={4}>
@@ -504,10 +541,17 @@ const UserUpdate = ({ updateModalData ,setUpdateModalData}) => {
             )}
 
             <Grid item xs={12}>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' ,marginRight:'20px' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  marginTop: '16px',
+                  marginRight: '20px',
+                }}
+              >
                 <Button
                   onClick={() => setIsOpen(false)}
-                  style={{ backgroundColor: '#bdbdbd', color: 'white'}}
+                  style={{ backgroundColor: '#bdbdbd', color: 'white' }}
                   variant="contained"
                 >
                   لغو
