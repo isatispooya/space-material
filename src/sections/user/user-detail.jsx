@@ -1,9 +1,8 @@
 /* eslint-disable no-nested-ternary */
-import { Box, Grid, Modal, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, IconButton, Modal, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Divider from '@mui/material/Divider';
-import { BorderBottom } from '@mui/icons-material';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const UserDetail = ({ viewModalData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,39 +13,13 @@ const UserDetail = ({ viewModalData }) => {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '80%',
-    maxWidth: 800,
+    maxWidth: 900,
     bgcolor: 'background.paper',
     borderRadius: '10px',
     boxShadow: 24,
     p: 4,
-    maxHeight: '90vh',
+    maxHeight: '150vh',
     overflowY: 'auto',
-  };
-
-  const headerStyle = {
-    bgcolor: 'rgba(0, 123, 255, 0.1)',
-    color: 'primary.main',
-    p: 2,
-    borderTopLeftRadius: '10px',
-    borderTopRightRadius: '10px',
-    mb: 3,
-    textAlign: 'center',
-  };
-
-  const labelStyle = {
-    fontWeight: 'bold',
-    marginRight: 1,
-    color: 'secondary.main',
-  };
-
-  const valueStyle = {
-    color: 'text.primary',
-    fontWeight: 'bold',
-  };
-
-  const dividerStyle = {
-    my: 2,
-    borderColor: 'primary.light',
   };
 
   useEffect(() => {
@@ -63,118 +36,153 @@ const UserDetail = ({ viewModalData }) => {
       aria-describedby="modal-view-description"
     >
       <Box sx={style}>
-        <Box sx={headerStyle}>
-          <Typography id="modal-view-title" variant="h6" component="h2">
-            جزئیات کاربر
-          </Typography>
-        </Box>
-
+        <IconButton color="secondary">
+          <CancelIcon sx={{ fontSize: 30, marginTop: '-25px', marginLeft: '-20px' }} onClick={() => setIsOpen(false)} />
+        </IconButton>
         {viewModalData && (
-          <Grid container spacing={2}>
+          <Grid container spacing={4}>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>نام کاربری:</span> {viewModalData.username}
-              </Typography>
+              <Avatar alt={viewModalData.username} src="/static/images/avatar/3.jpg" />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>نام:</span> {viewModalData.first_name}
-              </Typography>
+              <TextField
+                disabled
+                sx={{ marginLeft: '-380px' }}
+                id="standard-disabled"
+                label="نام کاربری"
+                defaultValue={viewModalData.username}
+                variant="standard"
+              />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>نام خانوادگی:</span> {viewModalData.last_name}
-              </Typography>
+            <Grid item xs={12} sm={3}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="نام "
+                defaultValue={viewModalData.first_name}
+              />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>کد ملی:</span> {viewModalData.national_code}
-              </Typography>
+            <Grid item xs={12} sm={3}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="نام خانوادگی "
+                defaultValue={viewModalData.last_name ? viewModalData.last_name : '_'}
+              />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>محل صدور:</span> {viewModalData.issue}
-              </Typography>
+            <Grid item xs={12} sm={3}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="کدملی"
+                defaultValue={viewModalData.national_code}
+              />
             </Grid>
-            <Grid item xs={12}>
-              <Divider variant="middle" sx={dividerStyle} />
+            <Grid item xs={12} sm={3}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="محل صدور"
+                defaultValue={viewModalData.issue}
+              />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>ایمیل:</span> {viewModalData.email}
-              </Typography>
+            <Grid item xs={12} sm={3}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="تاریخ تولد"
+                defaultValue={viewModalData.date_birth}
+              />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>شماره موبایل:</span> {viewModalData.mobile}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>تلفن:</span> {viewModalData.phone}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>شماره کارت:</span> {viewModalData.card_number_bank}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>شماره شبا:</span> {viewModalData.shaba_bank}
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Divider variant="middle" sx={dividerStyle} />
+            <Grid item xs={12} sm={3}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="شماره موبایل"
+                defaultValue={viewModalData.mobile}
+              />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>تاریخ تولد:</span> {viewModalData.date_birth}
-              </Typography>
+            <Grid item xs={12} sm={3}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="تلفن"
+                defaultValue={viewModalData.phone}
+              />
             </Grid>
+
             {viewModalData.gender && (
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body1" sx={valueStyle}>
-                  <span style={labelStyle}>جنسیت:</span>{' '}
-                  {viewModalData.gender === 'F'
-                    ? 'زن'
-                    : viewModalData.gender === 'M'
-                    ? 'مرد'
-                    : 'نامشخص'}
-                </Typography>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  disabled
+                  id="outlined-disabled"
+                  label="جنسیت"
+                  defaultValue={
+                    viewModalData.gender === 'F'
+                      ? 'زن'
+                      : viewModalData.gender === 'M'
+                      ? 'مرد'
+                      : 'نامشخص'
+                  }
+                />
               </Grid>
             )}
+
             {viewModalData.marited !== undefined && (
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body1" sx={valueStyle}>
-                  <span style={labelStyle}>وضعیت تاهل:</span>{' '}
-                  {viewModalData.marited ? 'متاهل' : 'مجرد'}
-                </Typography>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  disabled
+                  id="outlined-disabled"
+                  label="وضعیت تاهل"
+                  defaultValue={viewModalData.marited ? 'متاهل' : 'مجرد'}
+                />
               </Grid>
             )}
-            <Grid item xs={12}>
-              <Divider variant="middle" sx={dividerStyle} />
+
+            <Grid item xs={12} sm={3}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="شماره کارت"
+                defaultValue={viewModalData.card_number_bank}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="شماره شبا"
+                defaultValue={viewModalData.shaba_bank}
+              />
             </Grid>
 
             {viewModalData.status !== undefined && (
-              <Grid item xs={12} sm={6}>
-                <Typography variant="body1" sx={valueStyle}>
-                  <span style={labelStyle}>وضعیت:</span>{' '}
+              <Grid item xs={12} sm={3}>
+                <Button variant="contained" color="success">
                   {viewModalData.status ? 'فعال' : 'غیر فعال'}
-                </Typography>
+                </Button>
               </Grid>
             )}
-            <Grid item xs={12}>
-              <Divider variant="middle" sx={dividerStyle} />
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="ایمیل"
+                defaultValue={viewModalData.email}
+              />
             </Grid>
 
-            <Grid item xs={12}>
-              <Typography variant="body1" sx={valueStyle}>
-                <span style={labelStyle}>آدرس:</span> {viewModalData.address}
-              </Typography>
+            <Grid item xs={6}>
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="آدرس"
+                defaultValue={viewModalData.address}
+              />
             </Grid>
           </Grid>
         )}
